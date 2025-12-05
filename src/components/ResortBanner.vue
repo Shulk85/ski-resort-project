@@ -1,6 +1,6 @@
 <template>
   <v-card class="resort-banner" variant="outlined" color="indigo" rounded="lg">
-    <v-img :src="resort.imageUrl" height="260" cover>
+    <v-img :src="resort.imageUrl" height="360" cover>
       <div class="resort-banner-overlay">
         <div class="resort-banner-content">
           <div class="text-h4 font-weight-semibold text-white">
@@ -29,6 +29,7 @@
           variant="outlined"
           color="white"
           rounded="xl"
+          size="large"
           @click="$emit('change')"
         >
           Change resort

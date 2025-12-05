@@ -6,7 +6,7 @@
     rounded="lg"
     @click="$emit('select', resort.id)"
   >
-    <v-img :src="resort.imageUrl" height="180" cover />
+    <v-img :src="resort.imageUrl" height="280" cover />
 
     <v-card-text class="resort-card-content">
       <div class="text-subtitle-1 font-weight-medium">

@@ -40,7 +40,7 @@ export const tripData: TripData = {
       name: 'St. Anton am Arlberg',
       region: 'Austria • Tyrol',
       description: 'Big terrain, lively apres-ski, great for intermediate riders',
-      imageUrl: 'https://picsum.photos/seed/resort-alps-1/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/La_Toussuire_Ski_Resort_Wide.jpg/2560px-La_Toussuire_Ski_Resort_Wide.jpg',
       tags: ['Intermediate', 'Alps', 'Party vibe'],
     },
     {
@@ -48,7 +48,7 @@ export const tripData: TripData = {
       name: 'Val Thorens',
       region: 'France • Trois Vallées',
       description: 'High altitude resort with long season and wide ski area',
-      imageUrl: 'https://picsum.photos/seed/resort-fr-1/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Ski_Resort_Mavrovo.jpg/2560px-Ski_Resort_Mavrovo.jpg',
       tags: ['High altitude', 'Large ski area', 'Modern'],
     },
     {
@@ -56,7 +56,7 @@ export const tripData: TripData = {
       name: 'Zermatt',
       region: 'Switzerland • Valais',
       description: 'Iconic Matterhorn views, premium vibe, great groomers',
-      imageUrl: 'https://picsum.photos/seed/resort-ch-1/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Andorra_Ski_Resort.jpg',
       tags: ['Scenic', 'Premium', 'Groomers'],
     },
   ],
@@ -68,7 +68,7 @@ export const tripData: TripData = {
       name: 'Hotel Ormelune',
       stars: 4,
       description: 'Cozy alpine hotel with warm interiors and quick lift access',
-      imageUrl: 'https://picsum.photos/seed/hotel-orme/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/InterContinental_Davos.jpg/2560px-InterContinental_Davos.jpg',
     },
     {
       id: 'h_alpina',
@@ -76,7 +76,7 @@ export const tripData: TripData = {
       name: 'Hotel Alpina',
       stars: 3,
       description: 'Good value, clean rooms, simple breakfast, close to shuttle',
-      imageUrl: 'https://picsum.photos/seed/hotel-alpina/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Exterior_Hotel_H_02.jpg/2560px-Exterior_Hotel_H_02.jpg',
     },
     {
       id: 'h_summit',
@@ -84,7 +84,7 @@ export const tripData: TripData = {
       name: 'Summit Lodge',
       stars: 4,
       description: 'Ski-focused stay with modern rooms and great views',
-      imageUrl: 'https://picsum.photos/seed/hotel-summit/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Icehotel_entrance.jpg',
     },
     {
       id: 'h_matterhorn',
@@ -92,7 +92,7 @@ export const tripData: TripData = {
       name: 'Matterhorn Lodge',
       stars: 4,
       description: 'Modern alpine style, close to lifts, quiet evenings',
-      imageUrl: 'https://picsum.photos/seed/hotel-matterhorn/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Banff_Springs_Hotel_2017.jpg/1280px-Banff_Springs_Hotel_2017.jpg',
     },
     {
       id: 'h_val_blanc',
@@ -100,7 +100,7 @@ export const tripData: TripData = {
       name: 'Hotel Val Blanc',
       stars: 3,
       description: 'Bright rooms, great value, easy access to slopes',
-      imageUrl: 'https://picsum.photos/seed/hotel-val-blanc/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Gornergrat_-Switzerland_-observatories-29Dec2009.jpg/1280px-Gornergrat_-Switzerland_-observatories-29Dec2009.jpg',
     },
     {
       id: 'h_alpine_peak',
@@ -108,7 +108,7 @@ export const tripData: TripData = {
       name: 'Alpine Peak Hotel',
       stars: 5,
       description: 'Premium service, spa, and postcard-worthy views',
-      imageUrl: 'https://picsum.photos/seed/hotel-alpine-peak/1600/900',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Gstaad_Palace_2020-01-02.jpg/1536px-Gstaad_Palace_2020-01-02.jpg',
     },
   ],
 

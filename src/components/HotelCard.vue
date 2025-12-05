@@ -1,6 +1,6 @@
 <template>
   <v-card class="hotel-card" variant="outlined" color="indigo" rounded="lg">
-    <v-img :src="hotel.imageUrl" height="220" cover />
+    <v-img :src="hotel.imageUrl" height="320" cover />
 
     <v-card-text class="hotel-card-content">
       <div class="text-subtitle-1 font-weight-medium">
