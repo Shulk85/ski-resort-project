@@ -18,10 +18,7 @@
           <v-row align="start">
             <v-col cols="12" md="8">
               <div class="d-flex align-center justify-space-between mb-3">
-                <div class="text-h6">Trip package overview</div>
-                <div class="text-body-2 text-medium-emphasis">
-                  Make changes before checkout
-                </div>
+                <div class="text-h4">Trip package overview</div>
               </div>
 
               <div class="builder-stack">
@@ -244,6 +241,18 @@ function onResortChange() {
 
 .room-grid-col {
   display: flex;
+  flex-direction: column;
+}
+
+.room-grid-col :deep(.room-card) {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .room-grid-col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 .service-grid {

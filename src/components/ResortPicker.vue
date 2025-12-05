@@ -101,4 +101,21 @@ defineEmits<{
 .resort-picker-grid > :nth-child(3) {
   transition-delay: 120ms;
 }
+
+.resort-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.resort-card {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .resort-picker-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
 </style>

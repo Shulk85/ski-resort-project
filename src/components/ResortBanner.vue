@@ -75,4 +75,20 @@ defineEmits<{
 .resort-banner-change-btn {
   align-self: flex-end;
 }
+
+@media (max-width: 767px) {
+  .resort-banner-overlay {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+
+  .resort-banner-content {
+    width: 100%;
+  }
+
+  .resort-banner-change-btn {
+    align-self: stretch;
+  }
+}
 </style>
