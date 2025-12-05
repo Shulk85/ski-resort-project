@@ -1,5 +1,7 @@
 <template>
   <v-container fluid class="page">
+    <div ref="pageTop" />
+
     <div class="app-shell">
       <transition name="fade" mode="out-in" appear>
         <ResortPicker
@@ -74,7 +76,12 @@
                   </v-col>
                 </v-row>
 
-                <RecommendationCard :preferences="trip.preferences" class="mt-6" />
+                <RecommendationCard
+                  :preferences="trip.preferences"
+                  :recommended-resort="trip.recommendedResort"
+                  class="mt-6"
+                  @select-resort="onRecommendedResortSelect"
+                />
               </div>
             </v-col>
 
@@ -133,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, nextTick } from 'vue'
 import type { Id, PackageType, SkipassSelection, TransferSelection, FlightSelection } from '@/types/trip'
 import { useTripStore } from '@/stores/trip'
 import { tripData } from '@/mocks/trip-data'
@@ -155,6 +162,7 @@ import PriceSidebar from '@/components/PriceSidebar.vue'
 import RecommendationCard from '@/components/RecommendationCard.vue'
 
 const trip = useTripStore()
+const pageTop = ref<HTMLElement | null>(null)
 
 const isHotelDialogOpen = ref(false)
 const isSkipassDialogOpen = ref(false)
@@ -215,6 +223,17 @@ function onFlightSave(value: FlightSelection) {
 
 function onResortChange() {
   trip.resetFlow()
+}
+
+async function onRecommendedResortSelect(resortId: Id) {
+  trip.selectResort(resortId)
+
+  await nextTick()
+
+  pageTop.value?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  })
 }
 </script>
 

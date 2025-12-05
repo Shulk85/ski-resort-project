@@ -105,6 +105,17 @@ export const useTripStore = defineStore('trip', {
     addonOptions(): Option[] {
       return tripData.options.addons
     },
+    recommendedResort(): Resort | null {
+      if (!this.selectedResortId) return null
+
+      const list = tripData.resorts
+      if (list.length < 2) return null
+
+      const idx = list.findIndex((r) => r.id === this.selectedResortId)
+      if (idx === -1) return list[0]
+
+      return list[(idx + 1) % list.length]
+    },
 
     packageItems(): PackageItemVm[] {
       const byId = (list: Option[], id: Id | null) => (id ? list.find((o) => o.id === id) ?? null : null)

@@ -10,32 +10,19 @@
     </div>
 
     <transition-group name="fade-up" tag="div" class="resort-picker-grid" appear>
-      <v-card
+      <ResortCard
         v-for="resort in resorts"
         :key="resort.id"
-        class="resort-card"
-        variant="outlined"
-        color="indigo"
-        rounded="lg"
-        @click="$emit('select', resort.id)"
-      >
-        <v-img :src="resort.imageUrl" height="250" cover />
-
-        <v-card-text class="resort-card-content">
-          <div class="text-subtitle-1 font-weight-medium">
-            {{ resort.name }}
-          </div>
-          <div class="text-body-2 text-medium-emphasis">
-            {{ resort.description }}
-          </div>
-        </v-card-text>
-      </v-card>
+        :resort="resort"
+        @select="$emit('select', $event)"
+      />
     </transition-group>
   </section>
 </template>
 
 <script setup lang="ts">
 import type { Resort, Id } from '@/types/trip'
+import ResortCard from './ResortCard.vue';
 
 defineProps<{
   resorts: Resort[]
