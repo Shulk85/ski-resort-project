@@ -1,15 +1,19 @@
-import type { Resort, Hotel, Room, Option } from '@/types/trip'
+import type { Resort, Hotel, Room, Option, SkipassZone, SkipassLevel } from '@/types/trip'
 
 export type TripData = {
   resorts: Resort[]
   hotels: Hotel[]
   rooms: Room[]
   options: {
-    skipass: Option[]
     transfer: Option[]
     flight: Option[]
     insurance: Option[]
     addons: Option[]
+  }
+  skipass: {
+    zones: SkipassZone[]
+    days: number[]
+    levels: SkipassLevel[]
   }
 }
 
@@ -198,10 +202,6 @@ export const tripData: TripData = {
   ],
 
   options: {
-    skipass: [
-      { id: 'sp_4', title: 'Ski pass', summary: '4 days • Resort area', price: 260 },
-      { id: 'sp_6', title: 'Ski pass', summary: '6 days • Resort area', price: 360 },
-    ],
     transfer: [
       { id: 'tr_shared', title: 'Transfer', summary: 'Shared shuttle • Airport ⇄ Resort', price: 80 },
       { id: 'tr_private', title: 'Transfer', summary: 'Private car • Airport ⇄ Resort', price: 160 },
@@ -217,6 +217,18 @@ export const tripData: TripData = {
     addons: [
       { id: 'ad_helmet', title: 'Helmet rental', summary: 'Helmet rental', price: 25 },
       { id: 'ad_lesson', title: '1 lesson', summary: 'Private lesson • 60 min', price: 85 },
+    ],
+  },
+
+  skipass: {
+    zones: [
+      { id: 'sz_standard', title: 'Standard zone', dayPrice: 70 },
+      { id: 'sz_premium', title: 'Premium zone', dayPrice: 95 },
+    ],
+    days: [1, 3, 5, 7],
+    levels: [
+      { id: 'sl_standard', title: 'Standard', multiplier: 1 },
+      { id: 'sl_premium', title: 'Premium', multiplier: 1.15 },
     ],
   },
 }

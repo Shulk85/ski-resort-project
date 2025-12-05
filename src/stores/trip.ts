@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { tripData } from '@/mocks/trip-data'
-import type { Id, Resort, Hotel, Room, Option, PackageType, PackageItemVm, PriceLine } from '@/types/trip'
+import type { Id, Resort, Hotel, Room, Option, PackageType, PackageItemVm, PriceLine, SkipassSelection } from '@/types/trip'
 
 export const useTripStore = defineStore('trip', {
   state: () => ({
@@ -10,7 +10,12 @@ export const useTripStore = defineStore('trip', {
     selectedHotelId: null as Id | null,
     selectedRoomId: null as Id | null,
 
-    selectedSkipassId: (tripData.options.skipass[1]?.id ?? tripData.options.skipass[0].id) as Id,
+    skipassSelection: {
+      zoneId: tripData.skipass.zones[1].id,
+      days: 3,
+      levelId: tripData.skipass.levels[1].id,
+    } as SkipassSelection,
+
     selectedTransferId: (tripData.options.transfer[0]?.id ?? null) as Id | null,
     selectedFlightId: null as Id | null,
     selectedInsuranceId: (tripData.options.insurance[0]?.id ?? null) as Id | null,
@@ -50,7 +55,7 @@ export const useTripStore = defineStore('trip', {
     packageItems(): PackageItemVm[] {
       const byId = (list: Option[], id: Id | null) => (id ? list.find((o) => o.id === id) ?? null : null)
 
-      const skipass = byId(tripData.options.skipass, this.selectedSkipassId)
+      const skipass = this.skipassVm
       const transfer = byId(tripData.options.transfer, this.selectedTransferId)
       const flight = byId(tripData.options.flight, this.selectedFlightId)
       const insurance = byId(tripData.options.insurance, this.selectedInsuranceId)
@@ -63,9 +68,9 @@ export const useTripStore = defineStore('trip', {
         {
           id: 'c_skipass',
           type: 'skipass',
-          title: 'Ski pass',
-          summary: skipass?.summary ?? 'Not selected',
-          price: skipass?.price ?? 0,
+          title: 'Skipass',
+          summary: skipass.summary,
+          price: skipass.price,
           removable: false,
         },
         {
@@ -113,6 +118,17 @@ export const useTripStore = defineStore('trip', {
     totalPrice(): number {
       return this.priceLines.reduce((sum, l) => sum + l.amount, 0)
     },
+
+    skipassVm(): { summary: string; price: number } {
+      const zone = tripData.skipass.zones.find((z) => z.id === this.skipassSelection.zoneId) ?? tripData.skipass.zones[0]
+      const level = tripData.skipass.levels.find((l) => l.id === this.skipassSelection.levelId) ?? tripData.skipass.levels[0]
+      const days = this.skipassSelection.days
+
+      const price = Math.round(days * zone.dayPrice * level.multiplier)
+      const summary = `${days} days, ${zone.title.toLowerCase()} • ${level.title}`
+
+      return { summary, price }
+    },
   },
 
 
@@ -156,6 +172,10 @@ export const useTripStore = defineStore('trip', {
       if (type === 'flight') this.selectedFlightId = null
       if (type === 'insurance') this.selectedInsuranceId = null
       if (type === 'addons') this.selectedAddonIds = []
+    },
+
+    updateSkipass(selection: SkipassSelection) {
+      this.skipassSelection = selection
     },
   },
 })

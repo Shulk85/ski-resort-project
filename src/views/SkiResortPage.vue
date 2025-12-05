@@ -80,6 +80,15 @@
               />
             </v-col>
           </v-row>
+
+          <SkipassEditDialog
+            v-model="isSkipassDialogOpen"
+            :zones="tripData.skipass.zones"
+            :days="tripData.skipass.days"
+            :levels="tripData.skipass.levels"
+            :value="trip.skipassSelection"
+            @save="onSkipassSave"
+          />
         </div>
       </transition>
     </div>
@@ -88,13 +97,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { Id, PackageType } from '@/types/trip'
+import type { Id, PackageType, SkipassSelection } from '@/types/trip'
 import { useTripStore } from '@/stores/trip'
+import { tripData } from '@/mocks/trip-data'
 
 import ResortPicker from '@/components/ResortPicker.vue'
 import ResortBanner from '@/components/ResortBanner.vue'
 
 import HotelSelectDialog from '@/components/HotelSelectDialog.vue'
+import SkipassEditDialog from '@/components/SkipassEditDialog.vue'
 
 import HotelCard from '@/components/HotelCard.vue'
 import RoomCard from '@/components/RoomCard.vue'
@@ -104,6 +115,7 @@ import RecommendationCard from '@/components/RecommendationCard.vue'
 
 const trip = useTripStore()
 const isHotelDialogOpen = ref(false)
+const isSkipassDialogOpen = ref(false)
 
 onMounted(() => trip.resetFlow())
 
@@ -128,6 +140,14 @@ function onRoomSelect(roomId: Id) {
 }
 
 function onPackageChange(type: PackageType) {
+  if (type === 'skipass') {
+    isSkipassDialogOpen.value = true
+    return
+  }
+}
+
+function onSkipassSave(value: SkipassSelection) {
+  trip.updateSkipass(value)
 }
 
 function onContinue() {

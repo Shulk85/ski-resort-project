@@ -50,3 +50,21 @@ export type PriceLine = {
   title: string
   amount: number
 }
+
+export type SkipassZone = {
+  id: Id
+  title: string
+  dayPrice: number
+}
+
+export type SkipassLevel = {
+  id: Id
+  title: string
+  multiplier: number
+}
+
+export type SkipassSelection = {
+  zoneId: Id
+  days: number
+  levelId: Id
+}
