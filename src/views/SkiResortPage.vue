@@ -89,6 +89,24 @@
             :value="trip.skipassSelection"
             @save="onSkipassSave"
           />
+
+          <TransferEditDialog
+            v-model="isTransferDialogOpen"
+            :from="trip.transferFrom"
+            :types="trip.transferTypes"
+            :times="trip.transferTimes"
+            :value="trip.transferSelection"
+            @save="onTransferSave"
+          />
+
+          <FlightEditDialog
+            v-model="isFlightDialogOpen"
+            :airlines="trip.flightAirlines"
+            :classes="trip.flightClasses"
+            :departures="trip.flightDepartures"
+            :value="trip.flightSelection"
+            @save="onFlightSave"
+          />
         </div>
       </transition>
     </div>
@@ -97,7 +115,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { Id, PackageType, SkipassSelection } from '@/types/trip'
+import type { Id, PackageType, SkipassSelection, TransferSelection, FlightSelection } from '@/types/trip'
 import { useTripStore } from '@/stores/trip'
 import { tripData } from '@/mocks/trip-data'
 
@@ -106,6 +124,8 @@ import ResortBanner from '@/components/ResortBanner.vue'
 
 import HotelSelectDialog from '@/components/HotelSelectDialog.vue'
 import SkipassEditDialog from '@/components/SkipassEditDialog.vue'
+import TransferEditDialog from '@/components/TransferEditDialog.vue'
+import FlightEditDialog from '@/components/FlightEditDialog.vue'
 
 import HotelCard from '@/components/HotelCard.vue'
 import RoomCard from '@/components/RoomCard.vue'
@@ -116,6 +136,8 @@ import RecommendationCard from '@/components/RecommendationCard.vue'
 const trip = useTripStore()
 const isHotelDialogOpen = ref(false)
 const isSkipassDialogOpen = ref(false)
+const isTransferDialogOpen = ref(false)
+const isFlightDialogOpen = ref(false)
 
 onMounted(() => trip.resetFlow())
 
@@ -144,10 +166,26 @@ function onPackageChange(type: PackageType) {
     isSkipassDialogOpen.value = true
     return
   }
+  if (type === 'transfer') {
+    isTransferDialogOpen.value = true
+    return
+  }
+  if (type === 'flight') {
+    isFlightDialogOpen.value = true
+    return
+  }
 }
 
 function onSkipassSave(value: SkipassSelection) {
   trip.updateSkipass(value)
+}
+
+function onTransferSave(value: TransferSelection) {
+  trip.updateTransfer(value)
+}
+
+function onFlightSave(value: FlightSelection) {
+  trip.updateFlight(value)
 }
 
 function onContinue() {

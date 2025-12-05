@@ -68,3 +68,20 @@ export type SkipassSelection = {
   days: number
   levelId: Id
 }
+
+export type TransferSelection = {
+  typeId: Id | null
+  time: string
+}
+
+export type FlightClass = {
+  id: Id
+  title: string
+  multiplier: number
+}
+
+export type FlightSelection = {
+  airlineId: Id | null
+  classId: Id
+  departure: string
+}

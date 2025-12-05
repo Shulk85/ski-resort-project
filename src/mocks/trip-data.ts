@@ -1,4 +1,12 @@
-import type { Resort, Hotel, Room, Option, SkipassZone, SkipassLevel } from '@/types/trip'
+import type {
+  Resort,
+  Hotel,
+  Room,
+  Option,
+  SkipassZone,
+  SkipassLevel,
+  FlightClass
+} from '@/types/trip'
 
 export type TripData = {
   resorts: Resort[]
@@ -14,6 +22,14 @@ export type TripData = {
     zones: SkipassZone[]
     days: number[]
     levels: SkipassLevel[]
+  }
+  transferMeta: {
+    from: string
+    times: string[]
+  }
+  flightMeta: {
+    classes: FlightClass[]
+    departures: string[]
   }
 }
 
@@ -36,12 +52,12 @@ export const tripData: TripData = {
       tags: ['High altitude', 'Large ski area', 'Modern'],
     },
     {
-    id: 'r_ch_1',
-    name: 'Zermatt',
-    region: 'Switzerland • Valais',
-    description: 'Iconic Matterhorn views, premium vibe, great groomers',
-    imageUrl: 'https://picsum.photos/seed/resort-ch-1/1600/900',
-    tags: ['Scenic', 'Premium', 'Groomers'],
+      id: 'r_ch_1',
+      name: 'Zermatt',
+      region: 'Switzerland • Valais',
+      description: 'Iconic Matterhorn views, premium vibe, great groomers',
+      imageUrl: 'https://picsum.photos/seed/resort-ch-1/1600/900',
+      tags: ['Scenic', 'Premium', 'Groomers'],
     },
   ],
 
@@ -203,12 +219,13 @@ export const tripData: TripData = {
 
   options: {
     transfer: [
-      { id: 'tr_shared', title: 'Transfer', summary: 'Shared shuttle • Airport ⇄ Resort', price: 80 },
-      { id: 'tr_private', title: 'Transfer', summary: 'Private car • Airport ⇄ Resort', price: 160 },
+      { id: 'tr_shared', title: 'Shared shuttle', summary: 'Shared shuttle', price: 80 },
+      { id: 'tr_private', title: 'Private car', summary: 'Private car', price: 160 },
     ],
     flight: [
-      { id: 'fl_economy', title: 'Flight', summary: 'Economy • 1 stop', price: 220 },
-      { id: 'fl_direct', title: 'Flight', summary: 'Direct • Carry-on included', price: 340 },
+      { id: 'fl_emirates', title: 'Emirates', summary: 'Emirates', price: 260 },
+      { id: 'fl_lufthansa', title: 'Lufthansa', summary: 'Lufthansa', price: 240 },
+      { id: 'fl_airfrance', title: 'Air France', summary: 'Air France', price: 230 },
     ],
     insurance: [
       { id: 'ins_standard', title: 'Insurance', summary: 'Standard coverage', price: 35 },
@@ -230,5 +247,17 @@ export const tripData: TripData = {
       { id: 'sl_standard', title: 'Standard', multiplier: 1 },
       { id: 'sl_premium', title: 'Premium', multiplier: 1.15 },
     ],
+  },
+  transferMeta: {
+    from: 'From Geneva Airport',
+    times: ['07:00', '10:00', '13:00', '16:00', '19:00'],
+  },
+  flightMeta: {
+    classes: [
+      { id: 'fc_economy', title: 'Economy', multiplier: 1 },
+      { id: 'fc_premium', title: 'Premium Economy', multiplier: 1.25 },
+      { id: 'fc_business', title: 'Business', multiplier: 2.1 },
+    ],
+    departures: ['12.01 15:40', '12.01 18:10', '13.01 09:20'],
   },
 }

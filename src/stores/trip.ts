@@ -1,6 +1,19 @@
 import { defineStore } from 'pinia'
 import { tripData } from '@/mocks/trip-data'
-import type { Id, Resort, Hotel, Room, Option, PackageType, PackageItemVm, PriceLine, SkipassSelection } from '@/types/trip'
+import type {
+  Id,
+  Resort,
+  Hotel,
+  Room,
+  Option,
+  PackageType,
+  PackageItemVm,
+  PriceLine,
+  SkipassSelection,
+  TransferSelection,
+  FlightSelection,
+  FlightClass
+} from '@/types/trip'
 
 export const useTripStore = defineStore('trip', {
   state: () => ({
@@ -16,8 +29,17 @@ export const useTripStore = defineStore('trip', {
       levelId: tripData.skipass.levels[1].id,
     } as SkipassSelection,
 
-    selectedTransferId: (tripData.options.transfer[0]?.id ?? null) as Id | null,
-    selectedFlightId: null as Id | null,
+    transferSelection: {
+      typeId: tripData.options.transfer[0]?.id ?? null,
+      time: tripData.transferMeta.times[1] ?? tripData.transferMeta.times[0] ?? '10:00',
+    } as TransferSelection,
+
+    flightSelection: {
+      airlineId: tripData.options.flight[0]?.id ?? null,
+      classId: tripData.flightMeta.classes[0]?.id ?? 'fc_economy',
+      departure: tripData.flightMeta.departures[0] ?? '12.01 15:40',
+    } as FlightSelection,
+
     selectedInsuranceId: (tripData.options.insurance[0]?.id ?? null) as Id | null,
     selectedAddonIds: ['ad_helmet', 'ad_lesson'] as Id[],
   }),
@@ -52,12 +74,55 @@ export const useTripStore = defineStore('trip', {
       return tripData.rooms.find((r) => r.id === this.selectedRoomId) ?? null
     },
 
+    transferTypes(): Option[] {
+      return tripData.options.transfer
+    },
+
+    transferTimes(): string[] {
+      return tripData.transferMeta.times
+    },
+
+    transferFrom(): string {
+      return tripData.transferMeta.from
+    },
+
+    flightAirlines(): Option[] {
+      return tripData.options.flight
+    },
+
+    flightClasses(): FlightClass[] {
+      return tripData.flightMeta.classes
+    },
+
+    flightDepartures(): string[] {
+      return tripData.flightMeta.departures
+    },
+
     packageItems(): PackageItemVm[] {
       const byId = (list: Option[], id: Id | null) => (id ? list.find((o) => o.id === id) ?? null : null)
 
       const skipass = this.skipassVm
-      const transfer = byId(tripData.options.transfer, this.selectedTransferId)
-      const flight = byId(tripData.options.flight, this.selectedFlightId)
+      const transferType = this.transferSelection.typeId
+        ? tripData.options.transfer.find((o) => o.id === this.transferSelection.typeId) ?? null
+        : null
+      const transferSummary = transferType
+        ? `${tripData.transferMeta.from} • ${transferType.title} • ${this.transferSelection.time}`
+        : 'Not selected'
+      const transferPrice = transferType ? transferType.price : 0
+      const airline = this.flightSelection.airlineId
+        ? tripData.options.flight.find((o) => o.id === this.flightSelection.airlineId) ?? null
+        : null
+
+      const flightClass =
+        tripData.flightMeta.classes.find((c) => c.id === this.flightSelection.classId) ??
+        tripData.flightMeta.classes[0]
+
+      const flightSummary = airline
+        ? `${airline.title}, ${flightClass.title}, ${this.flightSelection.departure}`
+        : 'Not selected'
+
+      const flightPrice = airline ? Math.round(airline.price * flightClass.multiplier) : 0
+
       const insurance = byId(tripData.options.insurance, this.selectedInsuranceId)
 
       const addonsSelected = tripData.options.addons.filter((a) => this.selectedAddonIds.includes(a.id))
@@ -77,16 +142,16 @@ export const useTripStore = defineStore('trip', {
           id: 'c_transfer',
           type: 'transfer',
           title: 'Transfer',
-          summary: transfer?.summary ?? 'Not selected',
-          price: transfer?.price ?? 0,
+          summary: transferSummary,
+          price: transferPrice,
           removable: true,
         },
         {
           id: 'c_flight',
           type: 'flight',
           title: 'Flight',
-          summary: flight?.summary ?? 'Not selected',
-          price: flight?.price ?? 0,
+          summary: flightSummary,
+          price: flightPrice,
           removable: true,
         },
         {
@@ -168,14 +233,21 @@ export const useTripStore = defineStore('trip', {
     },
 
     removePackageItem(type: PackageType) {
-      if (type === 'transfer') this.selectedTransferId = null
-      if (type === 'flight') this.selectedFlightId = null
+      if (type === 'transfer') this.transferSelection.typeId = null
+      if (type === 'flight') this.flightSelection.airlineId = null
       if (type === 'insurance') this.selectedInsuranceId = null
       if (type === 'addons') this.selectedAddonIds = []
     },
 
     updateSkipass(selection: SkipassSelection) {
       this.skipassSelection = selection
+    },
+
+    updateTransfer(value: TransferSelection) {
+      this.transferSelection = value
+    },
+    updateFlight(value: FlightSelection) {
+      this.flightSelection = value
     },
   },
 })
