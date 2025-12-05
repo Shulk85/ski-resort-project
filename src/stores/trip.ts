@@ -7,9 +7,8 @@ export const useTripStore = defineStore('trip', {
     preferences: ['Ski-in/ski-out', 'Lively apres-ski', 'Mid-range budget'] as string[],
 
     selectedResortId: null as Id | null,
-
-    selectedHotelId: '' as Id,
-    selectedRoomId: '' as Id,
+    selectedHotelId: null as Id | null,
+    selectedRoomId: null as Id | null,
 
     selectedSkipassId: (tripData.options.skipass[1]?.id ?? tripData.options.skipass[0].id) as Id,
     selectedTransferId: (tripData.options.transfer[0]?.id ?? null) as Id | null,
@@ -23,26 +22,29 @@ export const useTripStore = defineStore('trip', {
       return tripData.resorts
     },
 
-    selectedResort(): Resort {
-      return tripData.resorts.find((r) => r.id === this.selectedResortId) ?? tripData.resorts[0]
-    },
-
     hotelsForSelectedResort(): Hotel[] {
+      if (!this.selectedResortId) return []
       return tripData.hotels.filter((h) => h.resortId === this.selectedResortId)
     },
 
-    selectedHotel(): Hotel {
-      const hotels = this.hotelsForSelectedResort
-      return hotels.find((h) => h.id === this.selectedHotelId) ?? hotels[0] ?? tripData.hotels[0]
+    selectedResort(): Resort | null {
+      if (!this.selectedResortId) return null
+      return tripData.resorts.find((r) => r.id === this.selectedResortId) ?? null
+    },
+
+    selectedHotel(): Hotel | null {
+      if (!this.selectedHotelId) return null
+      return tripData.hotels.find((h) => h.id === this.selectedHotelId) ?? null
     },
 
     roomsForSelectedHotel(): Room[] {
-      return tripData.rooms.filter((r) => r.hotelId === this.selectedHotel.id)
+      if (!this.selectedHotelId) return []
+      return tripData.rooms.filter((r) => r.hotelId === this.selectedHotelId)
     },
 
-    selectedRoom(): Room {
-      const rooms = this.roomsForSelectedHotel
-      return rooms.find((r) => r.id === this.selectedRoomId) ?? rooms[0] ?? tripData.rooms[0]
+    selectedRoom(): Room | null {
+      if (!this.selectedRoomId) return null
+      return tripData.rooms.find((r) => r.id === this.selectedRoomId) ?? null
     },
 
     packageItems(): PackageItemVm[] {
@@ -102,18 +104,9 @@ export const useTripStore = defineStore('trip', {
     },
 
     priceLines(): PriceLine[] {
-      const roomLine: PriceLine = {
-        id: 'room',
-        title: 'Room',
-        amount: this.selectedRoom.price,
-      }
-
-      const otherLines = this.packageItems.map((i) => ({
-        id: i.id,
-        title: i.title,
-        amount: i.price,
-      }))
-
+      if (!this.selectedRoom) return []
+      const roomLine: PriceLine = { id: 'room', title: 'Room', amount: this.selectedRoom.price }
+      const otherLines = this.packageItems.map((i) => ({ id: i.id, title: i.title, amount: i.price }))
       return [roomLine, ...otherLines]
     },
 
@@ -122,17 +115,27 @@ export const useTripStore = defineStore('trip', {
     },
   },
 
+
   actions: {
-    initSelections() {
-      const hotels = this.hotelsForSelectedResort
-      this.selectedHotelId = hotels[0]?.id ?? ''
-      const rooms = tripData.rooms.filter((r) => r.hotelId === this.selectedHotelId)
-      this.selectedRoomId = rooms[0]?.id ?? ''
+    resetFlow() {
+      this.selectedResortId = null
+      this.selectedHotelId = null
+      this.selectedRoomId = null
     },
 
     selectResort(resortId: Id) {
       this.selectedResortId = resortId
+
       const hotels = tripData.hotels.filter((h) => h.resortId === resortId)
+      const firstHotel = hotels[0] ?? null
+      this.selectedHotelId = firstHotel?.id ?? null
+
+      const rooms = firstHotel ? tripData.rooms.filter((r) => r.hotelId === firstHotel.id) : []
+      this.selectedRoomId = rooms[0]?.id ?? null
+    },
+
+    initSelections() {
+      const hotels = this.hotelsForSelectedResort
       this.selectedHotelId = hotels[0]?.id ?? ''
       const rooms = tripData.rooms.filter((r) => r.hotelId === this.selectedHotelId)
       this.selectedRoomId = rooms[0]?.id ?? ''
@@ -141,7 +144,7 @@ export const useTripStore = defineStore('trip', {
     selectHotel(hotelId: Id) {
       this.selectedHotelId = hotelId
       const rooms = tripData.rooms.filter((r) => r.hotelId === hotelId)
-      this.selectedRoomId = rooms[0]?.id ?? ''
+      this.selectedRoomId = rooms[0]?.id ?? null
     },
 
     selectRoom(roomId: Id) {
