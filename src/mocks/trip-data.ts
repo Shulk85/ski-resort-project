@@ -1,0 +1,161 @@
+import type { Resort, Hotel, Room, Option } from '@/types/trip'
+
+export type TripData = {
+  resorts: Resort[]
+  hotels: Hotel[]
+  rooms: Room[]
+  options: {
+    skipass: Option[]
+    transfer: Option[]
+    flight: Option[]
+    insurance: Option[]
+    addons: Option[]
+  }
+}
+
+export const tripData: TripData = {
+  resorts: [
+    {
+      id: 'r_alps_1',
+      name: 'St. Anton am Arlberg',
+      region: 'Austria • Tyrol',
+      description: 'Big terrain, lively apres-ski, great for intermediate riders',
+      imageUrl: 'https://picsum.photos/seed/resort-alps-1/1600/900',
+      tags: ['Intermediate', 'Alps', 'Party vibe'],
+    },
+    {
+      id: 'r_fr_1',
+      name: 'Val Thorens',
+      region: 'France • Trois Vallées',
+      description: 'High altitude resort with long season and wide ski area',
+      imageUrl: 'https://picsum.photos/seed/resort-fr-1/1600/900',
+      tags: ['High altitude', 'Large ski area', 'Modern'],
+    },
+    {
+    id: 'r_ch_1',
+    name: 'Zermatt',
+    region: 'Switzerland • Valais',
+    description: 'Iconic Matterhorn views, premium vibe, great groomers',
+    imageUrl: 'https://picsum.photos/seed/resort-ch-1/1600/900',
+    tags: ['Scenic', 'Premium', 'Groomers'],
+    },
+  ],
+
+  hotels: [
+    {
+      id: 'h_ormelune',
+      resortId: 'r_alps_1',
+      name: 'Hotel Ormelune',
+      stars: 4,
+      description: 'Cozy alpine hotel with warm interiors and quick lift access',
+      imageUrl: 'https://picsum.photos/seed/hotel-orme/1600/900',
+    },
+    {
+      id: 'h_alpina',
+      resortId: 'r_alps_1',
+      name: 'Hotel Alpina',
+      stars: 3,
+      description: 'Good value, clean rooms, simple breakfast, close to shuttle',
+      imageUrl: 'https://picsum.photos/seed/hotel-alpina/1600/900',
+    },
+    {
+      id: 'h_summit',
+      resortId: 'r_fr_1',
+      name: 'Summit Lodge',
+      stars: 4,
+      description: 'Ski-focused stay with modern rooms and great views',
+      imageUrl: 'https://picsum.photos/seed/hotel-summit/1600/900',
+    },
+    {
+      id: 'h_matterhorn',
+      resortId: 'r_ch_1',
+      name: 'Matterhorn Lodge',
+      stars: 4,
+      description: 'Modern alpine style, close to lifts, quiet evenings',
+      imageUrl: 'https://picsum.photos/seed/hotel-matterhorn/1600/900',
+    },
+  ],
+
+  rooms: [
+    {
+      id: 'rm_orme_double',
+      hotelId: 'h_ormelune',
+      name: 'Double Room • Breakfast included',
+      description: 'Mountain-view room with modern chalet vibes and extra space',
+      price: 420,
+      imageUrls: [
+        'https://picsum.photos/seed/room-orme-1/1600/900',
+        'https://picsum.photos/seed/room-orme-2/1600/900',
+        'https://picsum.photos/seed/room-orme-3/1600/900',
+      ],
+    },
+    {
+      id: 'rm_orme_suite',
+      hotelId: 'h_ormelune',
+      name: 'Junior Suite • Breakfast included',
+      description: 'More space, seating area, better view',
+      price: 560,
+      imageUrls: [
+        'https://picsum.photos/seed/suite-orme-1/1600/900',
+        'https://picsum.photos/seed/suite-orme-2/1600/900',
+      ],
+    },
+    {
+      id: 'rm_alpina_double',
+      hotelId: 'h_alpina',
+      name: 'Double Room • Room only',
+      description: 'Simple and bright, perfect for active days on the slopes',
+      price: 320,
+      imageUrls: [
+        'https://picsum.photos/seed/room-alpina-1/1600/900',
+        'https://picsum.photos/seed/room-alpina-2/1600/900',
+      ],
+    },
+    {
+      id: 'rm_summit_double',
+      hotelId: 'h_summit',
+      name: 'Double Room • Breakfast included',
+      description: 'Clean modern interior, great natural light',
+      price: 460,
+      imageUrls: [
+        'https://picsum.photos/seed/room-summit-1/1600/900',
+        'https://picsum.photos/seed/room-summit-2/1600/900',
+      ],
+    },
+    {
+      id: 'rm_matterhorn_double',
+      hotelId: 'h_matterhorn',
+      name: 'Double Room • Breakfast included',
+      description: 'Bright room with mountain accents and a comfy bed',
+      price: 520,
+      imageUrls: [
+          'https://picsum.photos/seed/room-matterhorn-1/1600/900',
+          'https://picsum.photos/seed/room-matterhorn-2/1600/900',
+          'https://picsum.photos/seed/room-matterhorn-3/1600/900',
+      ],
+    },
+  ],
+
+  options: {
+    skipass: [
+      { id: 'sp_4', title: 'Ski pass', summary: '4 days • Resort area', price: 260 },
+      { id: 'sp_6', title: 'Ski pass', summary: '6 days • Resort area', price: 360 },
+    ],
+    transfer: [
+      { id: 'tr_shared', title: 'Transfer', summary: 'Shared shuttle • Airport ⇄ Resort', price: 80 },
+      { id: 'tr_private', title: 'Transfer', summary: 'Private car • Airport ⇄ Resort', price: 160 },
+    ],
+    flight: [
+      { id: 'fl_economy', title: 'Flight', summary: 'Economy • 1 stop', price: 220 },
+      { id: 'fl_direct', title: 'Flight', summary: 'Direct • Carry-on included', price: 340 },
+    ],
+    insurance: [
+      { id: 'ins_standard', title: 'Insurance', summary: 'Standard coverage', price: 35 },
+      { id: 'ins_plus', title: 'Insurance', summary: 'Plus coverage • extra medical', price: 55 },
+    ],
+    addons: [
+      { id: 'ad_helmet', title: 'Helmet rental', summary: 'Helmet rental', price: 25 },
+      { id: 'ad_lesson', title: '1 lesson', summary: 'Private lesson • 60 min', price: 85 },
+    ],
+  },
+}

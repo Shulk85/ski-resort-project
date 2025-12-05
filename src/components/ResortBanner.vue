@@ -1,5 +1,5 @@
 <template>
-  <v-card class="resort-banner" rounded="xl" elevation="2">
+  <v-card class="resort-banner" variant="outlined" color="indigo" rounded="lg">
     <v-img :src="resort.imageUrl" height="260" cover>
       <div class="resort-banner-overlay">
         <div class="text-h4 font-weight-semibold text-white">
@@ -27,10 +27,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Trip } from '@/types/trip'
+import type { Resort } from '@/types/trip'
 
 defineProps<{
-  resort: Trip.Resort
+  resort: Resort
+}>()
+
+defineEmits<{
+  (e: 'change'): void
 }>()
 </script>
 
