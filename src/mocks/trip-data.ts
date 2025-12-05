@@ -228,12 +228,13 @@ export const tripData: TripData = {
       { id: 'fl_airfrance', title: 'Air France', summary: 'Air France', price: 230 },
     ],
     insurance: [
-      { id: 'ins_standard', title: 'Insurance', summary: 'Standard coverage', price: 35 },
-      { id: 'ins_plus', title: 'Insurance', summary: 'Plus coverage • extra medical', price: 55 },
+      { id: 'ins_basic', title: 'Basic', summary: 'Basic', price: 0 },
+      { id: 'ins_plus', title: 'Plus', summary: 'Plus', price: 25 },
     ],
     addons: [
-      { id: 'ad_helmet', title: 'Helmet rental', summary: 'Helmet rental', price: 25 },
-      { id: 'ad_lesson', title: '1 lesson', summary: 'Private lesson • 60 min', price: 85 },
+      { id: 'ad_lessons', title: 'Ski lessons', summary: 'Ski lessons', price: 85 },
+      { id: 'ad_spa', title: 'Spa', summary: 'Spa', price: 40 },
+      { id: 'ad_nightlife', title: 'Nightlife', summary: 'Nightlife', price: 30 },
     ],
   },
 

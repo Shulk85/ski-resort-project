@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="open" max-width="720">
-    <v-card class="skipass-dialog-card" variant="outlined" color="indigo" rounded="xl">
+    <v-card class="skipass-dialog-card" variant="outlined" color="indigo" rounded="lg">
       <v-card-title class="text-h6">
         Edit skipass
       </v-card-title>

@@ -40,8 +40,8 @@ export const useTripStore = defineStore('trip', {
       departure: tripData.flightMeta.departures[0] ?? '12.01 15:40',
     } as FlightSelection,
 
-    selectedInsuranceId: (tripData.options.insurance[0]?.id ?? null) as Id | null,
-    selectedAddonIds: ['ad_helmet', 'ad_lesson'] as Id[],
+    insuranceTypeId: (tripData.options.insurance[0]?.id ?? null) as Id | null,
+    selectedAddonIds: ['ad_lessons', 'ad_spa'] as Id[],
   }),
 
   getters: {
@@ -98,6 +98,14 @@ export const useTripStore = defineStore('trip', {
       return tripData.flightMeta.departures
     },
 
+    insuranceTypes(): Option[] {
+      return tripData.options.insurance
+    },
+
+    addonOptions(): Option[] {
+      return tripData.options.addons
+    },
+
     packageItems(): PackageItemVm[] {
       const byId = (list: Option[], id: Id | null) => (id ? list.find((o) => o.id === id) ?? null : null)
 
@@ -123,11 +131,17 @@ export const useTripStore = defineStore('trip', {
 
       const flightPrice = airline ? Math.round(airline.price * flightClass.multiplier) : 0
 
-      const insurance = byId(tripData.options.insurance, this.selectedInsuranceId)
+      const insurance = this.insuranceTypeId
+        ? tripData.options.insurance.find((o) => o.id === this.insuranceTypeId) ?? null
+        : null
+
+      const insuranceSummary = insurance ? `Included, ${insurance.title.toLowerCase()}` : 'Not selected'
+      const insurancePrice = insurance ? insurance.price : 0
 
       const addonsSelected = tripData.options.addons.filter((a) => this.selectedAddonIds.includes(a.id))
       const addonsPrice = addonsSelected.reduce((sum, a) => sum + a.price, 0)
-      const addonsSummary = addonsSelected.length === 0 ? 'Not selected' : addonsSelected.map((a) => a.title).join(', ')
+      const addonsSummary =
+        addonsSelected.length === 0 ? 'Not selected' : addonsSelected.map((a) => a.title).join(', ')
 
       return [
         {
@@ -158,8 +172,8 @@ export const useTripStore = defineStore('trip', {
           id: 'c_insurance',
           type: 'insurance',
           title: 'Insurance',
-          summary: insurance?.summary ?? 'Not selected',
-          price: insurance?.price ?? 0,
+          summary: insuranceSummary,
+          price: insurancePrice,
           removable: true,
         },
         {
@@ -235,7 +249,7 @@ export const useTripStore = defineStore('trip', {
     removePackageItem(type: PackageType) {
       if (type === 'transfer') this.transferSelection.typeId = null
       if (type === 'flight') this.flightSelection.airlineId = null
-      if (type === 'insurance') this.selectedInsuranceId = null
+      if (type === 'insurance') this.insuranceTypeId = null
       if (type === 'addons') this.selectedAddonIds = []
     },
 
@@ -248,6 +262,13 @@ export const useTripStore = defineStore('trip', {
     },
     updateFlight(value: FlightSelection) {
       this.flightSelection = value
+    },
+    updateInsurance(typeId: Id | null) {
+      this.insuranceTypeId = typeId
+    },
+
+    updateAddons(ids: Id[]) {
+      this.selectedAddonIds = ids
     },
   },
 })

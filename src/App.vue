@@ -4,7 +4,7 @@
       <v-app-bar flat>
         <v-container class="app-shell">
           <div class="text-subtitle-1 font-weight-medium">
-            Ski resort trip
+            Book your dream ski resort
           </div>
         </v-container>
       </v-app-bar>

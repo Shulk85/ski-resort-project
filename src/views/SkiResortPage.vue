@@ -60,13 +60,21 @@
                 </div>
 
                 <div class="text-h6 mb-3 mt-6">Select a service</div>
-                <PackageComponentCard
-                  v-for="item in trip.packageItems"
-                  :key="item.id"
-                  :item="item"
-                  @change="onPackageChange"
-                  @remove="trip.removePackageItem"
-                />
+                <v-row class="service-grid">
+                  <v-col
+                    v-for="item in trip.packageItems"
+                    :key="item.id"
+                    cols="12"
+                    md="4"
+                    class="service-grid-col"
+                  >
+                    <PackageComponentCard
+                      :item="item"
+                      @change="onPackageChange"
+                      @remove="trip.removePackageItem"
+                    />
+                  </v-col>
+                </v-row>
 
                 <RecommendationCard :preferences="trip.preferences" class="mt-6" />
               </div>
@@ -107,6 +115,20 @@
             :value="trip.flightSelection"
             @save="onFlightSave"
           />
+
+          <InsuranceEditDialog
+            v-model="isInsuranceDialogOpen"
+            :types="trip.insuranceTypes"
+            :value="trip.insuranceTypeId"
+            @save="trip.updateInsurance"
+          />
+
+          <AddonsEditDialog
+            v-model="isAddonsDialogOpen"
+            :addons="trip.addonOptions"
+            :value="trip.selectedAddonIds"
+            @save="trip.updateAddons"
+          />
         </div>
       </transition>
     </div>
@@ -126,6 +148,8 @@ import HotelSelectDialog from '@/components/HotelSelectDialog.vue'
 import SkipassEditDialog from '@/components/SkipassEditDialog.vue'
 import TransferEditDialog from '@/components/TransferEditDialog.vue'
 import FlightEditDialog from '@/components/FlightEditDialog.vue'
+import InsuranceEditDialog from '@/components/InsuranceEditDialog.vue'
+import AddonsEditDialog from '@/components/AddonsEditDialog.vue'
 
 import HotelCard from '@/components/HotelCard.vue'
 import RoomCard from '@/components/RoomCard.vue'
@@ -134,10 +158,13 @@ import PriceSidebar from '@/components/PriceSidebar.vue'
 import RecommendationCard from '@/components/RecommendationCard.vue'
 
 const trip = useTripStore()
+
 const isHotelDialogOpen = ref(false)
 const isSkipassDialogOpen = ref(false)
 const isTransferDialogOpen = ref(false)
 const isFlightDialogOpen = ref(false)
+const isInsuranceDialogOpen = ref(false)
+const isAddonsDialogOpen = ref(false)
 
 onMounted(() => trip.resetFlow())
 
@@ -172,6 +199,14 @@ function onPackageChange(type: PackageType) {
   }
   if (type === 'flight') {
     isFlightDialogOpen.value = true
+    return
+  }
+  if (type === 'insurance') {
+    isInsuranceDialogOpen.value = true
+    return
+  }
+  if (type === 'addons') {
+    isAddonsDialogOpen.value = true
     return
   }
 }
@@ -217,4 +252,11 @@ function onContinue() {
   display: flex;
 }
 
+.service-grid {
+  align-items: stretch;
+}
+
+.service-grid-col {
+  display: flex;
+}
 </style>

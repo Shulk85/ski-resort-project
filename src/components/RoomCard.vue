@@ -8,7 +8,7 @@
     tabindex="0"
     role="button"
     :aria-selected="selected"
-    @click="emitSelect"
+    @click="onCardClick"
     @keydown.enter.prevent="emitSelect"
     @keydown.space.prevent="emitSelect"
   >
@@ -57,6 +57,14 @@ const emit = defineEmits<{
 function emitSelect() {
   emit('select', props.room.id)
 }
+
+function onCardClick(e: MouseEvent) {
+  const target = e.target as HTMLElement | null
+  if (target?.closest('.room-card-media button') || target?.closest('.room-card-media .v-btn')) return
+
+  emitSelect()
+}
+
 </script>
 
 <style scoped lang="scss">
