@@ -12,6 +12,7 @@
             v-if="trip.selectedResort"
             :resort="trip.selectedResort"
             class="mb-6"
+            @change="onResortChange"
           />
 
           <v-row align="start">
@@ -84,7 +85,6 @@
               <PriceSidebar
                 :lines="trip.priceLines"
                 :total="trip.totalPrice"
-                @continue="onContinue"
               />
             </v-col>
           </v-row>
@@ -144,12 +144,12 @@ import { tripData } from '@/mocks/trip-data'
 import ResortPicker from '@/components/ResortPicker.vue'
 import ResortBanner from '@/components/ResortBanner.vue'
 
-import HotelSelectDialog from '@/components/HotelSelectDialog.vue'
-import SkipassEditDialog from '@/components/SkipassEditDialog.vue'
-import TransferEditDialog from '@/components/TransferEditDialog.vue'
-import FlightEditDialog from '@/components/FlightEditDialog.vue'
-import InsuranceEditDialog from '@/components/InsuranceEditDialog.vue'
-import AddonsEditDialog from '@/components/AddonsEditDialog.vue'
+import HotelSelectDialog from '@/components/dialogs/HotelSelectDialog.vue'
+import SkipassEditDialog from '@/components/dialogs/SkipassEditDialog.vue'
+import TransferEditDialog from '@/components/dialogs/TransferEditDialog.vue'
+import FlightEditDialog from '@/components/dialogs/FlightEditDialog.vue'
+import InsuranceEditDialog from '@/components/dialogs/InsuranceEditDialog.vue'
+import AddonsEditDialog from '@/components/dialogs/AddonsEditDialog.vue'
 
 import HotelCard from '@/components/HotelCard.vue'
 import RoomCard from '@/components/RoomCard.vue'
@@ -172,9 +172,6 @@ function onResortSelect(resortId: Id) {
   trip.selectResort(resortId)
 }
 
-function onResortChange() {
-}
-
 function onHotelChange() {
   isHotelDialogOpen.value = true
 }
@@ -182,10 +179,6 @@ function onHotelChange() {
 function onHotelSelect(hotelId: Id) {
   trip.selectHotel(hotelId)
   isHotelDialogOpen.value = false
-}
-
-function onRoomSelect(roomId: Id) {
-  trip.selectRoom(roomId)
 }
 
 function onPackageChange(type: PackageType) {
@@ -223,7 +216,8 @@ function onFlightSave(value: FlightSelection) {
   trip.updateFlight(value)
 }
 
-function onContinue() {
+function onResortChange() {
+  trip.resetFlow()
 }
 </script>
 
