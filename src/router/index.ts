@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
-import SkiResortPage from "@/pages/SkiResortPage.vue"
+import SkiResortPage from "@/views/SkiResortPage.vue"
 
 export const router = createRouter({
   history: createWebHistory(),

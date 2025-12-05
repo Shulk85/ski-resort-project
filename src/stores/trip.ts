@@ -5,7 +5,7 @@ export const useTripStore = defineStore('trip', {
   state: () => ({
     resort: {
       name: 'St. Anton am Arlberg',
-      region: 'Austria • Tyrol',
+      region: 'Austria / Tyrol',
       imageUrl:
         'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80',
       tags: ['Intermediate', 'Alps', 'Party vibe'],
